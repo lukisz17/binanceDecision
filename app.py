@@ -18,7 +18,7 @@ def getKLines(apiManager, symbol, interval):
 def hello_world():  # put application's code here
     apiManager = BinanceRestApiManager('api_key', 'api_secret', exchange="binance.com")
     data = np.array(getKLines(apiManager, "ETHUSDT", '1m'))
-    return 'Hello World!' + len(data)
+    return 'Hello World!' + str(len(data))
 
 
 if __name__ == '__main__':
