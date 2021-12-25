@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 def getKLines(apiManager, symbol, interval):
-    data = apiManager.get_historical_klines(
+    data = apiManager.get_klines(
         symbol=symbol,
         interval=interval,
         limit=200
