@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Api, Resource
 from unicorn_binance_rest_api.unicorn_binance_rest_api_manager import BinanceRestApiManager
 from datetime import datetime
@@ -10,9 +10,11 @@ api = Api(app)
 
 class DecisionRsponse(Resource):
     def get(self):
-        return {"data": "Please use POST instead"}
+        return {"status": "Please use POST instead"}
 
     def post(self):
+        klines = request.json['klines']
+        print(klines[49]['closeTimeString'])
         return {"status": "OK"}
 
 api.add_resource(DecisionRsponse, "/decision")
