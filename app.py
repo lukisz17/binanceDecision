@@ -30,9 +30,7 @@ def getKLines(apiManager, symbol, interval):
     data = apiManager.get_historical_klines(
         symbol=symbol,
         interval=interval,
-        end_str=1639406624000,
-        start_str=1638974624000
-        #start_str=1639772953000
+        start_str=1639772953000
     )
 
     return data
@@ -56,24 +54,27 @@ def calculate():
     for a in adxLengthSamples:
         for d in DMsmoothingLengthSamples:
             df = calculateDMI(df, adxLength = a, DMsmoothingLength = d)
-            df = df[df['PSARDMP'].notnull()]
 
             maxProfit = 0;
             adxBuy = 1
             adxSell = 1
             totalProfit = 0
+            winTradesBest = 0
+            lostTradesBest = 0
 
             for i in range(1, 50):
                 for j in range(1, 50):
                     subDf = df[['DMP_BUY', 'DMN_BUY', 'DMP_SELL', 'DMN_SELL', 'ADX', 'hlc3']]
                     array = subDf.to_numpy()
-                    totalProfit = simulation(array, ADX_BUY=i, ADX_SELL=j)
+                    totalProfit, winTrades, lostTrades = simulation(array, ADX_BUY=i, ADX_SELL=j)
                     if totalProfit > maxProfit:
                         maxProfit = totalProfit
                         adxBuy = i
                         adxSell = j
+                        winTradesBest = winTrades
+                        lostTradesBest = lostTrades
 
-            print('ADX Length, DMsmoothingLength / TOTAL PROFIT ', a, d, maxProfit, adxBuy, adxSell)
+            print('ADX Length, DMsmoothingLength / TOTAL PROFIT ', a, d, maxProfit, adxBuy, adxSell, winTradesBest, lostTradesBest)
     return str(maxProfit)
 
 if __name__ == '__main__':

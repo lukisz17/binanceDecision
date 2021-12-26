@@ -20,4 +20,4 @@ def calculateDMI(df, adxLength, DMsmoothingLength):
     df['DMP_SELL'] = df['DMP'] < df['PSARDMP']
     df['DMN_SELL'] = df['DMN'] > df['PSARDMN']
 
-    return df
+    return df[df['PSARDMP'].notnull()]

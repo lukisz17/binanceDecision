@@ -6,6 +6,8 @@ def simulation(array, ADX_BUY, ADX_SELL):
     capital = 100.0
     buyVolume = 0.0
     totalProfit = 0.0
+    winTrades = 0
+    lostTrades = 0
 
     for x in range(len(array)):
         row = array[x]
@@ -16,17 +18,21 @@ def simulation(array, ADX_BUY, ADX_SELL):
         ADX = row[4]
 
         if not openTrade and ADX >= ADX_BUY:
-            if DMN_BUY == True and DMP_BUY == True:
+            if DMN_BUY == True or DMP_BUY == True:
                openTrade = True
                buyVolume = capital / row[5]
                #print('Buy at ', row['closeTime'])
 
         if openTrade and ADX >= ADX_SELL:
-            if DMN_SELL == True and DMP_SELL == True:
+            if DMN_SELL == True or DMP_SELL == True:
                 openTrade = False
                 newCapital = buyVolume * row[5]
                 profit = newCapital - capital
                 totalProfit = totalProfit + profit
+                if profit >= 0:
+                    winTrades = winTrades + 1
+                else:
+                    lostTrades = lostTrades + 1
                 #print('Sell at ', row['closeTime'], profit)
 
-    return totalProfit
+    return totalProfit, winTrades, lostTrades
