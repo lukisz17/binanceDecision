@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import pandas_ta as ta
 
-def calculateDMI(df):
-    adx = ta.adx(close=df['close'], high=df['high'], low=df['low'])
-    df['DMP'] = ta.ema(adx['DMP_14'], length=24)
-    df['DMN'] = ta.ema(adx['DMN_14'], length=24)  # to 14 i  24 musi byc parametrem
-    df['ADX'] = adx['ADX_14']
+def calculateDMI(df, adxLength, DMsmoothingLength):
+    adx = ta.adx(close=df['close'], high=df['high'], low=df['low'], length=adxLength)
+    df['DMP'] = ta.ema(adx['DMP_' + str(adxLength)], length=DMsmoothingLength)
+    df['DMN'] = ta.ema(adx['DMN_' + str(adxLength)], length=DMsmoothingLength)  # to 14 i  24 musi byc parametrem
+    df['ADX'] = adx['ADX_' + str(adxLength)]
 
     dfN = ta.psar(df['DMN'], df['DMN'])  # tutaj to tez musza byc parametry
     dfP = ta.psar(df['DMP'], df['DMP'])  # tutaj to tez musza byc parametry
