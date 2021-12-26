@@ -44,7 +44,7 @@ def calculate():
     apiManager = BinanceRestApiManager('api_key', 'api_secret', exchange="binance.com")
     pd.set_option('display.max_columns', None)
     print('Loading Klines...')
-    data = np.array(getKLines(apiManager, "ETHUSDT", '1m'))
+    data = np.array(getKLines(apiManager, "ETHUSDT", '3m'))
     print('Loading Klines... DONE')
     df = createDataFrameFromHistoricalData(data)
 
@@ -74,7 +74,7 @@ def calculate():
                         winTradesBest = winTrades
                         lostTradesBest = lostTrades
 
-            print('ADX Length, DMsmoothingLength / TOTAL PROFIT ', a, d, maxProfit, adxBuy, adxSell, winTradesBest, lostTradesBest)
+            print('ADX Length, DMsmoothingLength / TOTAL PROFIT ', a, d, maxProfit, adxBuy, adxSell, winTradesBest, lostTradesBest, winTradesBest/lostTradesBest)
     return str(maxProfit)
 
 if __name__ == '__main__':

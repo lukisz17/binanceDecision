@@ -4,6 +4,7 @@ def simulation(array, ADX_BUY, ADX_SELL):
 
     openTrade = False
     capital = 100.0
+    commision = 0.1
     buyVolume = 0.0
     totalProfit = 0.0
     winTrades = 0
