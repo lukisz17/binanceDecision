@@ -31,7 +31,7 @@ def createDataFrameFromHistoricalData(data):
             'high': high,
             'low': low,
             'close': close,
-            'hlc3': hlc3
+            'typicalPrice': hlc3
         })
 
     dataFrame = pd.DataFrame(dict)
