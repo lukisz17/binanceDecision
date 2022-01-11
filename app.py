@@ -12,6 +12,7 @@ from calculation.FourEmas import calculate4Emas
 from calculation.OBV import calculateOBV
 from simulation.SimulationEMAs import simulation
 from simulation.SimulationOBV import testOBVstrategy
+from calculation.BollingerBands import calculateBollingerBands
 
 app = Flask(__name__)
 api = Api(app)
@@ -21,12 +22,16 @@ class DecisionRsponse(Resource):
         return {"status": "Please use POST instead"}
 
     def post(self):
-        print(request.json['array1m'][49])
-        print(request.json['array5m'][49])
+        calculateBollingerBands(request)
+        #print(request.json['array1m'][49])
+        #print(request.json['array5m'][49])
         print(request.json['array15m'][49])
-        print(request.json['array30m'][49])
-        print(request.json['array1h'][49])
-        print(request.json['array1d'][49])
+        print(request.json['array15m'][48])
+        print(request.json['array15m'][47])
+        print(request.json['array15m'][46])
+        #print(request.json['array30m'][49])
+        #print(request.json['array1h'][49])
+        #print(request.json['array1d'][49])
         #klines = np.array(request.json['klines'])
         #df = createDataFrame(klines, False)
         #df = calculateDMI(df)

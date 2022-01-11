@@ -55,7 +55,7 @@ def createDataFrame(data):
         element = data[i]
         closeTime = int(element['closeTime']) / 1000
         volume = float(element['volume'])
-        takerBuyVolume = float(element['takerBuyBaseAssetVolume'])
+        # takerBuyVolume = float(element['takerBuyBaseAssetVolume'])
         close = float(element['close'])
         open = float(element['open'])
         low = float(element['low'])
