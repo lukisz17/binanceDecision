@@ -9,7 +9,9 @@ from datetime import datetime
 from dataframe.DataFrameLoader import createDataFrame, createDataFrameFromHistoricalData
 from calculation.DMI import calculateDMI
 from calculation.FourEmas import calculate4Emas
+from calculation.OBV import calculateOBV
 from simulation.SimulationEMAs import simulation
+from simulation.SimulationOBV import testOBVstrategy
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,11 +21,17 @@ class DecisionRsponse(Resource):
         return {"status": "Please use POST instead"}
 
     def post(self):
-        klines = np.array(request.json['klines'])
-        df = createDataFrame(klines, False)
-        df = calculateDMI(df)
+        print(request.json['array1m'][49])
+        print(request.json['array5m'][49])
+        print(request.json['array15m'][49])
+        print(request.json['array30m'][49])
+        print(request.json['array1h'][49])
+        print(request.json['array1d'][49])
+        #klines = np.array(request.json['klines'])
+        #df = createDataFrame(klines, False)
+        #df = calculateDMI(df)
 
-        print(df)
+        #print(df)
         return {"status": "OK"}
 
 api.add_resource(DecisionRsponse, "/decision")
@@ -32,9 +40,10 @@ def getKLines(apiManager, symbol, interval):
     data = apiManager.get_historical_klines(
         symbol=symbol,
         interval=interval,
-        start_str=1636349289000,
-        end_str=  1636995289000
-        #end_str=1636475289000
+        start_str=1638345491000, # 1 grudnia
+        #start_str=1635780897000
+        #start_str=1636349289000,
+        #end_str=1637671915000
     )
 
     return data
@@ -52,7 +61,8 @@ def calculate():
     print('Loading Klines... DONE')
     df = createDataFrameFromHistoricalData(data)
 
-    testDMIstrategy(df)
+    testOBVstrategy(df)
+    #testDMIstrategy(df)
 
 if __name__ == '__main__':
     app.run()

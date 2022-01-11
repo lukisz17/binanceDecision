@@ -11,5 +11,6 @@ def calculateDMI(df, adxLength, DMsmoothingLength):
 
     #df = df[df['ADX'].notnull()]
     df['ADX_slope_ta'] = ta.slope(df['ADX'], length=2)
+    df['rsi'] = ta.rsi(close=df['close'], length=14)
 
     return df[df['ADX_slope_ta'].notnull()]

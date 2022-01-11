@@ -13,17 +13,24 @@ def createDataFrameFromHistoricalData(data):
     TAKER_BUY_QUOTE_VOLUME_INDEX = 10
 
     dict = []
+    onBalanceQuoteVolume = 0
 
     for i in range(len(data)):
         element = data[i]
         closeTime = int(element[0]) / 1000
         volume = float(element[VOLUME_INDEX])
+        quoteVolume = float(element[QUOTE_VOLUME_INDEX])
         takerBuyVolume = float(element[TAKER_BUY_VOLUME_INDEX])
+        takerBuyQuoteVolume = float(element[TAKER_BUY_QUOTE_VOLUME_INDEX])
         close = float(element[CLOSE_PRICE_INDEX])
         open = float(element[OPEN_PRICE_INDEX])
         low = float(element[LOW_PRICE_INDEX])
         high = float(element[HIGH_PRICE_INDEX])
         hlc3 = float((high + low + close) / 3.0)
+
+        demandQuoteVolume = takerBuyQuoteVolume
+        supplyQuoteVolume = quoteVolume - demandQuoteVolume
+        onBalanceQuoteVolume = onBalanceQuoteVolume + demandQuoteVolume - supplyQuoteVolume
 
         dict.append({
             'closeTime': datetime.fromtimestamp(closeTime).strftime('%Y-%m-%d %H:%M:%S'),
@@ -31,7 +38,8 @@ def createDataFrameFromHistoricalData(data):
             'high': high,
             'low': low,
             'close': close,
-            'typicalPrice': hlc3
+            'typicalPrice': hlc3,
+            'onBalanceQuoteVolume': onBalanceQuoteVolume
         })
 
     dataFrame = pd.DataFrame(dict)
