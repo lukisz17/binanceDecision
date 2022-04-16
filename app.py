@@ -12,6 +12,7 @@ from calculation.FourEmas import calculate4Emas
 from calculation.OBV import calculateOBV
 from simulation.SimulationEMAs import simulation
 from simulation.SimulationOBV import testOBVstrategy
+from simulation.SimulationRSI import testRSIstrategy
 from calculation.BollingerBands import calculateBollingerBands
 
 app = Flask(__name__)
@@ -45,10 +46,7 @@ def getKLines(apiManager, symbol, interval):
     data = apiManager.get_historical_klines(
         symbol=symbol,
         interval=interval,
-        start_str=1638345491000, # 1 grudnia
-        #start_str=1635780897000
-        #start_str=1636349289000,
-        #end_str=1637671915000
+        start_str=1640992710000
     )
 
     return data
@@ -62,12 +60,12 @@ def calculate():
     apiManager = BinanceRestApiManager('api_key', 'api_secret', exchange="binance.com")
     pd.set_option('display.max_columns', None)
     print('Loading Klines...')
-    data = np.array(getKLines(apiManager, "ETHUSDT", '5m'))
+    data = np.array(getKLines(apiManager, "ETHUSDT", '1m'))
     print('Loading Klines... DONE')
     df = createDataFrameFromHistoricalData(data)
 
-    testOBVstrategy(df)
-    #testDMIstrategy(df)
+    for rsi in range(3,  30):
+        testRSIstrategy(df, rsi)
 
 if __name__ == '__main__':
     app.run()
